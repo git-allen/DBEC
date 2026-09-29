@@ -51,7 +51,7 @@ from dbec import DBEC
 
 # Simulate 10-D transaction embeddings
 embeddings = np.random.rand(100, 10)
-labels = np.array(['Legitimate', 'Fraudulent'] * 50)
+labels = np.array(['Legitimate', 'Legitimate', 'Legitimate', 'Fraudulent', 'Fraudulent'] * 20)
 
 # Euclidean distance is appropriate for absolute continuous metrics (amounts, times)
 model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
@@ -67,7 +67,7 @@ print(f"Cluster 0 Composition: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Impure Clusters Found: 1
-Cluster 0 Composition: {'Legitimate': 50, 'Fraudulent': 50}
+Cluster 0 Composition: {'Legitimate': 60, 'Fraudulent': 40}
 ```
 
 
@@ -88,7 +88,7 @@ from dbec import DBEC
 
 # Simulate 512-D CNN Image Embeddings
 embeddings = np.random.rand(100, 512)
-labels = np.array(['Dog', 'Wolf', 'Husky'] * 33 + ['Dog'])
+labels = np.array(['Dog', 'Dog', 'Wolf', 'Wolf', 'Husky'] * 20)
 
 # Cosine similarity is standard for high-dimensional deep learning feature vectors
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
@@ -104,7 +104,7 @@ print(f"Cluster 0 Composition: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Visual Edge Cases Found: 1
-Cluster 0 Composition: {'Dog': 34, 'Wolf': 33, 'Husky': 33}
+Cluster 0 Composition: {'Dog': 40, 'Wolf': 40, 'Husky': 20}
 ```
 
 
@@ -125,7 +125,7 @@ from dbec import DBEC
 
 # Simulate 64-D Symptom/EHR Embeddings
 embeddings = np.random.rand(100, 64)
-labels = np.array(['Flu', 'COVID-19', 'RSV', 'Common Cold'] * 25)
+labels = np.array(['Flu', 'COVID-19', 'RSV', 'Flu', 'Common Cold'] * 20)
 
 model = DBEC(neighbor=8, min_points_entropy=8, metric='euclidean')
 impure_clusters = model.fit_predict(embeddings, labels)
@@ -140,7 +140,7 @@ print(f"Cluster 0 Diagnoses: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Ambiguous Diagnostic Clusters: 1
-Cluster 0 Diagnoses: {'Flu': 25, 'COVID-19': 25, 'RSV': 25, 'Common Cold': 25}
+Cluster 0 Diagnoses: {'Flu': 40, 'COVID-19': 20, 'RSV': 20, 'Common Cold': 20}
 ```
 
 
@@ -161,7 +161,7 @@ from dbec import DBEC
 
 # Simulate 128-D Product Description Embeddings
 embeddings = np.random.rand(100, 128)
-labels = np.array(['Home Goods', 'Electronics', 'Hardware'] * 33 + ['Hardware'])
+labels = np.array(['Home Goods', 'Electronics', 'Electronics', 'Home Goods', 'Hardware'] * 20)
 
 # Cosine similarity is preferred for text-based description embeddings
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
@@ -176,7 +176,7 @@ print(f"Cluster 0 Departments: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Taxonomy Drifts Found: 1
-Cluster 0 Departments: {'Home Goods': 33, 'Electronics': 33, 'Hardware': 34}
+Cluster 0 Departments: {'Home Goods': 40, 'Electronics': 40, 'Hardware': 20}
 ```
 
 
@@ -197,7 +197,7 @@ from dbec import DBEC
 
 # Simulate 32-D Customer Journey Vectors
 embeddings = np.random.rand(100, 32)
-labels = np.array(['Purchased', 'Cart Abandoned', 'Churned'] * 33 + ['Purchased'])
+labels = np.array(['Purchased', 'Churned', 'Cart Abandoned', 'Purchased', 'Churned'] * 20)
 
 model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
 impure_clusters = model.fit_predict(embeddings, labels)
@@ -211,7 +211,7 @@ print(f"Cluster 0 Outcomes: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Friction Points Found: 1
-Cluster 0 Outcomes: {'Purchased': 34, 'Cart Abandoned': 33, 'Churned': 33}
+Cluster 0 Outcomes: {'Purchased': 40, 'Churned': 40, 'Cart Abandoned': 20}
 ```
 
 
@@ -232,7 +232,7 @@ from dbec import DBEC
 
 # Simulate 768-D DNABERT Genomic Sequence Embeddings
 embeddings = np.random.rand(100, 768)
-labels = np.array(['GO:0008150', 'GO:0003674', 'GO:0005575'] * 33 + ['GO:0008150'])
+labels = np.array(['GO:0008150', 'GO:0003674', 'GO:0005575', 'GO:0008150', 'GO:0005575'] * 20)
 
 # Cosine similarity is essential for high-dimensional genomic sequence vectors
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
@@ -247,7 +247,7 @@ print(f"Cluster 0 Conflicting Tags: {dict(Counter(cluster_labels))}")
 *Expected Output:*
 ```text
 Impure Genetic Clusters: 1
-Cluster 0 Conflicting Tags: {'GO:0008150': 34, 'GO:0003674': 33, 'GO:0005575': 33}
+Cluster 0 Conflicting Tags: {'GO:0008150': 40, 'GO:0005575': 40, 'GO:0003674': 20}
 ```
 
 
