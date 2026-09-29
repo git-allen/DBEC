@@ -43,6 +43,31 @@ In the financial sector, detecting new fraud tactics requires identifying anomal
 * **The DBEC Discovery:** When executed, DBEC isolates clusters of transactions that are structurally identical in the 10-D space, yet possess a high entropy of labels (half are marked legitimate, half fraudulent). 
 * **The Implication:** This immediately alerts security teams to either a specific "blind spot" in the automated fraud-flagging rules, or a brand-new fraudulent tactic where bad actors are perfectly mimicking legitimate purchasing behaviors.
 
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 10-D transaction embeddings
+embeddings = np.random.rand(100, 10)
+labels = np.array(['Legitimate', 'Fraudulent'] * 50)
+
+# Euclidean distance is appropriate for absolute continuous metrics (amounts, times)
+model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
+model.fit(embeddings, labels)
+
+metrics = model.get_run_metrics(embeddings, labels)
+print(f"Impure Clusters: {metrics['num_clusters']}")
+print(f"High Entropy Points (H): {metrics['number_high']}")
+```
+*Expected Output:*
+```text
+Impure Clusters: 1
+High Entropy Points (H): 100
+```
+
+
 ## 3. Image Classification Auditing (Computer Vision)
 **Notebook:** `examples/image_classification_vision.ipynb`
 
@@ -51,6 +76,31 @@ Validating massive image datasets or deep learning predictions is extremely labo
 * **The Setup:** Images are passed through a Convolutional Neural Network (CNN) like ResNet to extract 512-dimensional feature embeddings. The labels are either human annotations or model predictions (e.g., `['Dog', 'Wolf', 'Husky']`).
 * **The DBEC Discovery:** Running DBEC across these visual embeddings isolates clusters where visual similarity is extremely high, but label disagreement is chaotic. 
 * **The Implication:** DBEC mathematically isolates the exact "edge cases" of the model. Instead of randomly auditing 1 million images, AI researchers can look directly at the high-entropy DBEC clusters to find out exactly where the model is visually confused, or where human annotators fundamentally disagreed on how to classify the image.
+
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 512-D CNN Image Embeddings
+embeddings = np.random.rand(100, 512)
+labels = np.array(['Dog', 'Wolf', 'Husky'] * 33 + ['Dog'])
+
+# Cosine similarity is standard for high-dimensional deep learning feature vectors
+model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
+model.fit(embeddings, labels)
+
+metrics = model.get_run_metrics(embeddings, labels)
+print(f"Visual Edge Cases Found: {metrics['num_clusters']}")
+print(f"Conflicting Labels In Cluster: {metrics['cluster_sizes']}")
+```
+*Expected Output:*
+```text
+Visual Edge Cases Found: 1
+Conflicting Labels In Cluster: {1: 100}
+```
+
 
 ## 4. Electronic Health Records & Misdiagnosis (Healthcare)
 **Notebook:** `examples/ehr_misdiagnosis_healthcare.ipynb`
@@ -61,6 +111,30 @@ In healthcare, patient safety relies on consistent diagnostic pathways for simil
 * **The DBEC Discovery:** The algorithm discovers dense clusters of patients who exhibit identical or near-identical physiological symptoms, but who received wildly different diagnoses.
 * **The Implication:** These high-entropy clusters act as a powerful auditing tool to detect potential large-scale misdiagnoses. Alternatively, they can highlight the emergence of overlapping syndromes where multiple different diseases present identically, necessitating a new diagnostic test.
 
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 64-D Symptom/EHR Embeddings
+embeddings = np.random.rand(100, 64)
+labels = np.array(['Flu', 'COVID-19', 'RSV', 'Common Cold'] * 25)
+
+model = DBEC(neighbor=8, min_points_entropy=8, metric='euclidean')
+model.fit(embeddings, labels)
+metrics = model.get_run_metrics(embeddings, labels)
+
+print(f"Ambiguous Diagnostic Clusters: {metrics['num_clusters']}")
+print(f"Total High Entropy Patients (H): {metrics['number_high']}")
+```
+*Expected Output:*
+```text
+Ambiguous Diagnostic Clusters: 1
+Total High Entropy Patients (H): 100
+```
+
+
 ## 5. E-Commerce Product Categorization (Retail)
 **Notebook:** `examples/ecommerce_product_retail.ipynb`
 
@@ -69,6 +143,31 @@ Large retail catalogs suffer from taxonomy drift, where overlapping departments 
 * **The Setup:** Product text descriptions and metadata are embedded into 128-dimensional vectors. The labels are the store departments assigned to them (e.g., `['Home Goods', 'Electronics', 'Hardware']`).
 * **The DBEC Discovery:** DBEC isolates products that share almost identical semantic vector descriptions but are arbitrarily split across multiple different departments.
 * **The Implication:** If a cluster of "Smart Thermostats" has high label entropy between *Home Goods* and *Electronics*, DBEC is explicitly signaling that the current categorical taxonomy is insufficient and a new sub-category (e.g., *Smart Home Devices*) must be created to resolve the ambiguity.
+
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 128-D Product Description Embeddings
+embeddings = np.random.rand(100, 128)
+labels = np.array(['Home Goods', 'Electronics', 'Hardware'] * 33 + ['Hardware'])
+
+# Cosine similarity is preferred for text-based description embeddings
+model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
+model.fit(embeddings, labels)
+metrics = model.get_run_metrics(embeddings, labels)
+
+print(f"Taxonomy Drifts Found: {metrics['num_clusters']}")
+print(f"Products Requiring Re-categorization: {metrics['number_high']}")
+```
+*Expected Output:*
+```text
+Taxonomy Drifts Found: 1
+Products Requiring Re-categorization: 100
+```
+
 
 ## 6. Customer Churn & Journey Analysis (Marketing)
 **Notebook:** `examples/customer_churn_marketing.ipynb`
@@ -79,6 +178,30 @@ Understanding user experience (UX) friction is difficult when relying on macrosc
 * **The DBEC Discovery:** The algorithm isolates customers who followed the exact same spatial journey through the application but experienced entirely different outcomes.
 * **The Implication:** High entropy in a dense journey cluster indicates a very specific UX friction point—such as a broken checkout button that only affects a specific browser, causing some users to churn while others in the exact same cluster successfully purchase.
 
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 32-D Customer Journey Vectors
+embeddings = np.random.rand(100, 32)
+labels = np.array(['Purchased', 'Cart Abandoned', 'Churned'] * 33 + ['Purchased'])
+
+model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
+model.fit(embeddings, labels)
+metrics = model.get_run_metrics(embeddings, labels)
+
+print(f"Friction Points Found: {metrics['num_clusters']}")
+print(f"Affected User Journeys (H): {metrics['number_high']}")
+```
+*Expected Output:*
+```text
+Friction Points Found: 1
+Affected User Journeys (H): 100
+```
+
+
 ## 7. Bioinformatics & Genomics (Biotech)
 **Notebook:** `examples/bioinformatics_genomics.ipynb`
 
@@ -87,6 +210,31 @@ Biological sequence databases require immense curation, and annotation errors co
 * **The Setup:** Genomic sequences (DNA/RNA) are embedded into a 768-dimensional space using domain-specific foundation models (like `DNABERT`). The labels are the functional tags assigned to the sequences (e.g., Gene Ontology codes like `['GO:0008150', 'GO:0005575']`).
 * **The DBEC Discovery:** DBEC discovers dense clusters of identical or nearly identical genetic sequences that possess highly conflicting functional annotations.
 * **The Implication:** These impure genetic clusters reveal three critical biological anomalies: (1) Severe annotation errors in the database, (2) Pleiotropy (where identical genetic regions perform multiple distinct functions depending on context), or (3) Significant single-nucleotide mutations that drastically alter the phenotypic classification.
+
+
+**Example Code & Analytics:**
+```python
+import numpy as np
+from dbec import DBEC
+
+# Simulate 768-D DNABERT Genomic Sequence Embeddings
+embeddings = np.random.rand(100, 768)
+labels = np.array(['GO:0008150', 'GO:0003674', 'GO:0005575'] * 33 + ['GO:0008150'])
+
+# Cosine similarity is essential for high-dimensional genomic sequence vectors
+model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
+model.fit(embeddings, labels)
+metrics = model.get_run_metrics(embeddings, labels)
+
+print(f"Impure Genetic Clusters: {metrics['num_clusters']}")
+print(f"Sequences with Conflicting Tags (H): {metrics['number_high']}")
+```
+*Expected Output:*
+```text
+Impure Genetic Clusters: 1
+Sequences with Conflicting Tags (H): 100
+```
+
 
 ---
 
