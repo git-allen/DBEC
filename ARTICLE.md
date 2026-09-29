@@ -5,6 +5,8 @@
 
 ---
 
+![DBEC Concept Visualization](./assets/dbec_concept.png)
+
 ## Abstract
 
 As machine learning relies increasingly on high-dimensional vector embeddings, identifying severe inconsistencies between geometric similarity and categorical labels has become a critical challenge. The **Density-Based Entropy Clustering (DBEC)** algorithm introduces a novel, domain-agnostic approach to this problem. By pairing spatial density functions with Shannon Entropy, DBEC systematically isolates "impure" geographic regions—clusters of data points that are structurally identical in the embedding space but possess highly conflicting labels. While initially developed to discover emerging topics in natural language processing (NLP), this whitepaper demonstrates the mathematical portability of DBEC by applying it across six distinct industries, proving its efficacy as a universal anomaly detection and auditing tool.
