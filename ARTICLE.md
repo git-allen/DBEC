@@ -55,16 +55,19 @@ labels = np.array(['Legitimate', 'Fraudulent'] * 50)
 
 # Euclidean distance is appropriate for absolute continuous metrics (amounts, times)
 model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 
 metrics = model.get_run_metrics(embeddings, labels)
-print(f"Impure Clusters: {metrics['num_clusters']}")
-print(f"High Entropy Points (H): {metrics['number_high']}")
+# Extract the labels found in the first impure cluster
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
+print(f"Impure Clusters Found: {metrics['num_clusters']}")
+print(f"Cluster 0 Composition: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
-Impure Clusters: 1
-High Entropy Points (H): 100
+Impure Clusters Found: 1
+Cluster 0 Composition: {'Legitimate': 50, 'Fraudulent': 50}
 ```
 
 
@@ -89,16 +92,19 @@ labels = np.array(['Dog', 'Wolf', 'Husky'] * 33 + ['Dog'])
 
 # Cosine similarity is standard for high-dimensional deep learning feature vectors
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 
 metrics = model.get_run_metrics(embeddings, labels)
+# Extract label composition for the confused visual region
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
 print(f"Visual Edge Cases Found: {metrics['num_clusters']}")
-print(f"Conflicting Labels In Cluster: {metrics['cluster_sizes']}")
+print(f"Cluster 0 Composition: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
 Visual Edge Cases Found: 1
-Conflicting Labels In Cluster: {1: 100}
+Cluster 0 Composition: {'Dog': 34, 'Wolf': 33, 'Husky': 33}
 ```
 
 
@@ -122,16 +128,19 @@ embeddings = np.random.rand(100, 64)
 labels = np.array(['Flu', 'COVID-19', 'RSV', 'Common Cold'] * 25)
 
 model = DBEC(neighbor=8, min_points_entropy=8, metric='euclidean')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 metrics = model.get_run_metrics(embeddings, labels)
 
+# Analyze the conflicting diagnoses for these identical symptom presentations
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
 print(f"Ambiguous Diagnostic Clusters: {metrics['num_clusters']}")
-print(f"Total High Entropy Patients (H): {metrics['number_high']}")
+print(f"Cluster 0 Diagnoses: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
 Ambiguous Diagnostic Clusters: 1
-Total High Entropy Patients (H): 100
+Cluster 0 Diagnoses: {'Flu': 25, 'COVID-19': 25, 'RSV': 25, 'Common Cold': 25}
 ```
 
 
@@ -156,16 +165,18 @@ labels = np.array(['Home Goods', 'Electronics', 'Hardware'] * 33 + ['Hardware'])
 
 # Cosine similarity is preferred for text-based description embeddings
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 metrics = model.get_run_metrics(embeddings, labels)
 
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
 print(f"Taxonomy Drifts Found: {metrics['num_clusters']}")
-print(f"Products Requiring Re-categorization: {metrics['number_high']}")
+print(f"Cluster 0 Departments: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
 Taxonomy Drifts Found: 1
-Products Requiring Re-categorization: 100
+Cluster 0 Departments: {'Home Goods': 33, 'Electronics': 33, 'Hardware': 34}
 ```
 
 
@@ -189,16 +200,18 @@ embeddings = np.random.rand(100, 32)
 labels = np.array(['Purchased', 'Cart Abandoned', 'Churned'] * 33 + ['Purchased'])
 
 model = DBEC(neighbor=5, min_points_entropy=5, metric='euclidean')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 metrics = model.get_run_metrics(embeddings, labels)
 
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
 print(f"Friction Points Found: {metrics['num_clusters']}")
-print(f"Affected User Journeys (H): {metrics['number_high']}")
+print(f"Cluster 0 Outcomes: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
 Friction Points Found: 1
-Affected User Journeys (H): 100
+Cluster 0 Outcomes: {'Purchased': 34, 'Cart Abandoned': 33, 'Churned': 33}
 ```
 
 
@@ -223,16 +236,18 @@ labels = np.array(['GO:0008150', 'GO:0003674', 'GO:0005575'] * 33 + ['GO:0008150
 
 # Cosine similarity is essential for high-dimensional genomic sequence vectors
 model = DBEC(neighbor=5, min_points_entropy=5, metric='cosine')
-model.fit(embeddings, labels)
+impure_clusters = model.fit_predict(embeddings, labels)
 metrics = model.get_run_metrics(embeddings, labels)
 
+cluster_labels = labels[impure_clusters == 0]
+from collections import Counter
 print(f"Impure Genetic Clusters: {metrics['num_clusters']}")
-print(f"Sequences with Conflicting Tags (H): {metrics['number_high']}")
+print(f"Cluster 0 Conflicting Tags: {dict(Counter(cluster_labels))}")
 ```
 *Expected Output:*
 ```text
 Impure Genetic Clusters: 1
-Sequences with Conflicting Tags (H): 100
+Cluster 0 Conflicting Tags: {'GO:0008150': 34, 'GO:0003674': 33, 'GO:0005575': 33}
 ```
 
 
