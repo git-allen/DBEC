@@ -2,6 +2,9 @@
 
 DBEC is a novel clustering algorithm introduced in the paper [New Topic Discovery Using LLM Analysis and Entropy Based Clustering of Short Texts](https://ieeexplore.ieee.org/abstract/document/11416018), presented at the 2025 IEEE International Conference on Data Mining Workshops (ICDMW).
 
+> [!NOTE]
+> **Read the Official Whitepaper:** Discover how DBEC abstracts beyond NLP to act as a universal anomaly detection tool across Finance, Healthcare, Computer Vision, and Genomics. Read the full cross-industry breakdown in the official whitepaper here: [**ARTICLE.md**](./ARTICLE.md).
+
 ## Overview
 
 Traditional clustering algorithms often struggle with identifying subtle semantic shifts or inconsistencies in text classification, especially in high-dimensional embedding spaces. DBEC adapts the classic DBSCAN algorithm by shifting the focus from the pure spatial density of data points to the **diversity of preassigned labels** within a spatial region (spatial label entropy). 
