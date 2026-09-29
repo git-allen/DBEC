@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite the associated paper."
+authors:
+  - family-names: "Detmer"
+    given-names: "Allen"
+  - family-names: "Bhatnagar"
+    given-names: "Raj"
+  - family-names: "Aurisano"
+    given-names: "Jillian"
+title: "DBEC: Density-Based Entropy Clustering"
+version: 1.0.0
+date-released: 2026-09-29
+url: "https://github.com/allendetmer/DBEC"
+preferred-citation:
+  type: conference-paper
+  authors:
+    - family-names: "Detmer"
+      given-names: "Allen"
+    - family-names: "Bhatnagar"
+      given-names: "Raj"
+    - family-names: "Aurisano"
+      given-names: "Jillian"
+  title: "New Topic Discovery Using LLM Analysis and Entropy Based Clustering of Short Texts"
+  collection-title: "2025 IEEE International Conference on Data Mining Workshops (ICDMW)"
+  start: 1180
+  end: 1189
+  year: 2025
+  publisher:
+    name: "IEEE"
