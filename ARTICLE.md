@@ -23,6 +23,9 @@ By utilizing high-dimensional distance metrics (like Cosine or Euclidean) paired
 
 This article outlines how this mathematical abstraction translates into powerful anomaly discovery across multiple industries. All examples correspond to fully executable interactive Jupyter Notebooks found in the `examples/` directory.
 
+> [!IMPORTANT]
+> **A Note on Future Research:** While DBEC was rigorously tested and empirically validated for Natural Language Processing (NLP) in the original 2025 ICDMW paper, its application to the subsequent six cross-industry domains (Finance, Vision, Healthcare, Retail, Marketing, Genomics) remains largely theoretical at this stage. These sections are presented as high-potential domains that could significantly benefit from DBEC's mathematical abstraction, and they represent exciting open avenues for future empirical research and clinical validation.
+
 ---
 
 ## 1. The Original Use Case: New Topic Discovery (Natural Language Processing)
